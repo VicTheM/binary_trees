@@ -3,7 +3,7 @@
 
 /**
  * binary_tree_insert_left - inserts a left child
- * @parent - parent node
+ * @parent: parent node
  * @value: value to be stored in left child
  *
  * NOTE: It also creates the node implicitly
