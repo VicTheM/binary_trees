@@ -3,6 +3,7 @@
 /**
  * binary_tree_postorder - transverses a Btree in post order
  * @tree: root of tree
+ * @func: function to be applied on every node visited
  *
  * Description: The postorder transversal means
  * All nodes in the left subtree will be visited
