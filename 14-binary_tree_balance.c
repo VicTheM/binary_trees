@@ -8,6 +8,8 @@
  * the root node and performs its operation, the it
  * visits all nodes in the left subtree then all nodes
  * in the right subtree
+ *
+ * Return: the height of a sub stree
  */
 int preorder(const binary_tree_t *tree)
 {
