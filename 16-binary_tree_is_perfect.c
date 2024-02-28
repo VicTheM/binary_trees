@@ -1,12 +1,6 @@
 #include "binary_trees.h"
 
 /**
- * CHECKS IF A BINARY TREE IS PERFECT
- * for it to be perfect it has to both be
- * full and have a balance factor of 0
- */
-
-/**
  * preorder - transverses a Btree in pre-order
  * @tree: root of tree/subtree
  * @func: function to apply to every node
@@ -107,6 +101,7 @@ int binary_tree_balance(const binary_tree_t *tree)
  * binary_tree_is_perfect - checks if a tree is perfect
  * @tree: root of tree
  *
+ * Description: A perfect tree must be both balanced and complete
  * Return: 1 True; 0 False
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
