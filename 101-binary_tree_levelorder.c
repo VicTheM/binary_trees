@@ -18,8 +18,8 @@ void pre_order(const binary_tree_t *tree, int i, int *arr)
 		arr[i] = tree->n;
 
 		/* TRANSVERSE */
-		pre_order(tree->left, 2*i + 1, arr);
-		pre_order(tree->right, 2*i + 2, arr);
+		pre_order(tree->left, 2 * i + 1, arr);
+		pre_order(tree->right, 2 * i + 2, arr);
 	}
 }
 
