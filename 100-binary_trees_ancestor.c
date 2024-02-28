@@ -1,54 +1,29 @@
 #include "binary_trees.h"
 
-
 /**
- * binary_trees_ancestor - gets the closest single grandparent
- * of two nodes
+ * binary_trees_ancestor - Finds the lowest common ancestor of two nodes.
  *
- * @first: The first node
- * @second: The second node
+ * @first: Pointer to the first node.
+ * @second: Pointer to the second node.
  *
- * Return: The single parent the parents both nodes, otherwise NULL
+ * Return: The common ancestor and NULL if not found.
  */
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		const binary_tree_t *second)
 {
-	int found, c = 0;
-	const binary_tree_t *tmp = second;
-	const binary_tree_t *ptm = first;
-	const binary_tree_t *parent;
+	binary_tree_t *parent1, *parent2;
 
-	if (!first || !second)
-		return (NULL);
-
-	for ( ; c < 2; c++)
+	parent1 = (binary_tree_t *)first;
+	while (parent1)
 	{
-		if (c == 1)
+		parent2 = (binary_tree_t *)second;
+		while (parent2)
 		{
-			first = second;
-			second = ptm;
+			if (parent1 == parent2)
+				return (parent1);
+			parent2 = parent2->parent;
 		}
-		while (first)
-		{
-			while (second->parent)
-			{
-				if (second->parent == first)
-				{
-					parent = first;
-					found = 1;
-					break;
-				}
-				second = second->parent;
-			}
-			if (found == 1)
-				break;
-			first = first->parent;
-			second = tmp;
-		}
-
-		if (found == 1)
-			return ((binary_tree_t *)parent);
+		parent1 = parent1->parent;
 	}
-
 	return (NULL);
 }

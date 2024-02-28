@@ -1,116 +1,62 @@
 #include "binary_trees.h"
 
 /**
- * preorder - transverses a Btree in pre-order
- * @tree: root of tree/subtree
- * @func: function to apply to every node
+ * height - Measure the height of a binary tree.
  *
- * Description: The pre-order transversal first visits
- * the root node and performs its operation, the it
- * visits all nodes in the left subtree then all nodes
- * in the right subtree
+ * @tree: Pointer to the root node of the tree.
+ *
+ * Return: The height of a binary tree.
  */
-void preorder(const binary_tree_t *tree, size_t *func)
+size_t height(const binary_tree_t *tree)
 {
-	if (tree != NULL)
-	{
-		/* ACTION ON NODE */
-		/*  used to check for full tree */
-		if ((tree->left == NULL && tree->right != NULL) ||
-				(tree->left != NULL && tree->right == NULL))
-			*func += 1;
+	size_t left, right;
 
-		/* TRANSVERSE */
-		preorder(tree->left, func);
-		preorder(tree->right, func);
-	}
-}
-
-
-/**
- * binary_tree_is_full - checks if tree is full
- * @tree: the root node
- *
- * Description: A full tree is one whose nodes are either 0 or 2
- *
- * Return: 0 False 1 it is complete
- */
-int binary_tree_is_full(const binary_tree_t *tree)
-{
-	size_t boolean = 0;
-
-	preorder(tree, &boolean);
-
-	if (boolean > 0)
+	if (!tree)
 		return (0);
-	return (1);
+	left = tree->left ? 1 + height(tree->left) : 0;
+	right = tree->right ? 1 + height(tree->right) : 0;
+
+	return (left > right ? left : right);
 }
 
 /**
- * pre_order - transverses a Btree in pre-order
- * @tree: root of tree/subtree
+ * is_perfect - recursive function to check if a binary tree is perfect.
  *
- * Description: The pre-order transversal first visits
- * the root node and performs its operation, the it
- * visits all nodes in the left subtree then all nodes
- * in the right subtree
+ * @tree: Pointer to the root node of the tree to check.
+ * @currH: The current height of a binary tree.
+ * @actualH: The actual height of a binary tree.
  *
- * Return: the height of a sub stree
+ * Return: 1 if perfect and 0 otherwise.
  */
-int pre_order(const binary_tree_t *tree)
-{
-	int l = 0;
-	int r = 0;
-
-	if (tree)
-	{
-		l++;
-		r++;
-		l += tree->left ? pre_order(tree->left) : 0;
-		r += tree->right ? pre_order(tree->right) : 0;
-		return (l > r ? l : r);
-	}
-	return (0);
-}
-
-
-/**
- * binary_tree_balance - Measures the Balance Factor of a Bt
- * @tree: root of tree/subtree
- *
- * NOTE: Balance Factor is the difference in the height
- * of left subtree to the height of the right subtree
- *
- * Return: the balance factor
- */
-int binary_tree_balance(const binary_tree_t *tree)
-{
-	int bf = 0;
-	int l_height;
-	int r_height;
-
-	l_height = pre_order(tree->left);
-	r_height = pre_order(tree->right);
-
-	bf = l_height - r_height;
-
-	return (bf);
-}
-
-/**
- * binary_tree_is_perfect - checks if a tree is perfect
- * @tree: root of tree
- *
- * Description: A perfect tree must be both balanced and complete
- * Return: 1 True; 0 False
- */
-int binary_tree_is_perfect(const binary_tree_t *tree)
+int is_perfect(const binary_tree_t *tree, size_t currH, size_t actualH)
 {
 	if (!tree)
 		return (0);
 
-	if (binary_tree_balance(tree) != 0 || binary_tree_is_full(tree) == 0)
+	if (!tree->left && !tree->right)
+		return (currH == actualH);
+
+	if (!tree->left || !tree->right)
 		return (0);
 
-	return (1);
+	return (is_perfect(tree->left, currH + 1, actualH) &&
+			is_perfect(tree->right, currH + 1, actualH));
+}
+
+/**
+ * binary_tree_is_perfect - Checks if a binary tree is perfect.
+ *
+ * @tree: Pointer to the root node of the tree to check
+ *
+ * Return: 1 if tree is perfect and 0 otherwise.
+ */
+int binary_tree_is_perfect(const binary_tree_t *tree)
+{
+	size_t actualH;
+
+	if (!tree)
+		return (0);
+
+	actualH = height(tree);
+	return (is_perfect(tree, 0, actualH));
 }
