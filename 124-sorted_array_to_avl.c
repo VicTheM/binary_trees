@@ -1,57 +1,58 @@
 #include "binary_trees.h"
-
-/* CREATES A BALANCED BST (AVL) FROM A SORTED ARRAY */
-
+avl_t *merge_algo(int *array, int left_start, int right_end, avl_t *root);
 
 /**
- * sorted_array_to_avl_rec - creates AVL without rotation from arr
- * @array: A sorted array
- * @start: start index
- * @stop: stop index
- * @parent: parent of new node
+ * sorted_array_to_avl -  a function that builds an AVL tree from
+ * a sorted array
  *
- * Return: Pointer to root
- */
-avl_t *sorted_array_to_avl_rec(int *array, size_t start, size_t stop, avl_t *parent)
-{
-	int mid;
-	avl_t *root = malloc(sizeof(avl_t));
-
-	if (!root)
-		return (NULL);
-	if (start > stop)
-		return (NULL);
-
-	root->parent = parent;
-
-	mid = (start + stop) / 2;
-	root->n = array[mid];
-	printf("%d\n", root->n);
-
-	root->left = sorted_array_to_avl_rec(array, start, mid - 1, root);
-	root->right = sorted_array_to_avl_rec(array, mid + 1, stop, root);
-
-	return (root);
-}
-
-
-
-/**
- * sorted_array_to_avl - creates AVL without rotation from arr
- * @array: A sorted array
- * @size: size of array
+ * @array: sorted array to build tree from
  *
- * Return: Pointer to root
+ * @size: size of sorted array
+ *
+ * Return: a pointer to the root node of the created AVL tree else NULL
  */
 avl_t *sorted_array_to_avl(int *array, size_t size)
 {
-	size_t start, stop;
+	if (array == NULL || size == 0)
+		return (NULL);
+	return (merge_algo(array, 0, size - 1, NULL));
+}
 
-	if (size < 1)
+/**
+ * merge_algo - a function that use recursion to sort the nodes of an
+ * AVL tree from a sorted array
+ *
+ * @array: pointer to array containing elements
+ *
+ * @left_start: start of the left index
+ *
+ * @right_end: end of the right index
+ *
+ * @root: pointer to the parent node which is NULL
+ *
+ * Return: newly created node and it's values
+ */
+avl_t *merge_algo(int *array, int left_start, int right_end, avl_t *root)
+{
+	int middle;
+	avl_t *tree;
+
+	if (left_start > right_end)
 		return (NULL);
 
-	start = 0;
-	stop = size - 1;
+	/* step 1 */
+	middle = (left_start + right_end) / 2;
 
-	return (sorted_array_to_avl_rec(array, start, stop, NULL));
+	/* step 2 and 3*/
+	tree = malloc(sizeof(avl_t) * 1);
+	if (tree == NULL) /* step 4 */
+		return (NULL);
+
+	tree->parent = root; /* step 5 */
+	/* step 6.. */
+	tree->left = merge_algo(array, left_start, middle - 1, tree);
+	tree->right = merge_algo(array, middle + 1, right_end, tree);
+	tree->n = array[middle]; /* step 7 */
+
+	return (tree);
 }

@@ -31,9 +31,10 @@ int main(void)
     };
     size_t n = sizeof(array) / sizeof(array[0]);
 
+    printf("Starting.....\n");
     tree = sorted_array_to_avl(array, n);
-    if (!tree)
-        return (1);
+    printf("Finished.\n");
+
     print_array(array, n);
     binary_tree_print(tree);
     return (0);
